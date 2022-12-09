@@ -5,6 +5,11 @@ import { getManager } from "typeorm";
 export const script = async () => {
   const manager = getManager();
   const workLogIds = await manager.query(`SELECT id FROM "work_log" WHERE "projectGuideId" IS NULL`);
+  console.log(
+    "Number of worklogs without projectGuideId: ",
+    workLogIds.length,
+    workLogIds.length ? `specifically: ${JSON.stringify(workLogIds)}` : ""
+  );
   for (const { id: workLogId } of workLogIds) {
     console.log("workLogId :>> ", workLogId);
     const workLogRecord = await manager.query(
@@ -31,6 +36,4 @@ export const script = async () => {
       }
     }
   }
-
-  console.log("FINISH");
 };

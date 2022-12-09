@@ -1,3 +1,4 @@
 ormconfig.json
-ormconfig.dev.json
+ormconfig.*.json
 node_modules
+dist/

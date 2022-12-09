@@ -20,7 +20,7 @@ export const script1 = async () => {
   }
 };
 
-export const script = async () => {
+export const script2 = async () => {
   const manager = getManager();
   const records: Started_by_attendance_entry_id[] = await manager.query(
     `SELECT started_by_attendance_entry_id, id FROM "work_log_record" WHERE "department" IS NULL`
@@ -35,5 +35,24 @@ export const script = async () => {
         `UPDATE "work_log_record" SET "department" = '${JSON.stringify({ id, name })}' WHERE id = '${recordId}'`
       );
     }
+  }
+};
+
+export const script = async () => {
+  const manager = getManager();
+  const records: Started_by_attendance_entry_id[] = await manager.query(
+    `SELECT started_by_attendance_entry_id, id FROM "work_log_record" WHERE "department" IS NULL`
+  );
+  for (const { id: recordId, started_by_attendance_entry_id: atId } of records) {
+    const attendanceBlocks: AttendanceBlock[] = await manager.query(
+      `SELECT "startedByAttendanceEntry" FROM "attendance_block" WHERE "startedByAttendanceEntryId" = '${atId}'`
+    );
+    // const { id, name } =
+    //   attendanceBlocks.map((ab) => ab.startedByAttendanceEntry.person?.departments?.[0] || {})[0] || {};
+    // if (id && name) {
+    //   await manager.query(
+    //     `UPDATE "work_log_record" SET "department" = '${JSON.stringify({ id, name })}' WHERE id = '${recordId}'`
+    //   );
+    // }
   }
 };

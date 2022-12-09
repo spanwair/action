@@ -11,7 +11,7 @@
     "build:ormconfig": "copyfiles -f ormconfig.js  dist/",
     "watch": "tsc -w",
     "dev": "nodemon app.ts",
-    "start": "node dist/index.js"
+    "start": "tsc --outDir dist && node dist/index.js"
   },
   "keywords": [],
   "author": "",
